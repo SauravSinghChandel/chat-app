@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import { clerkMiddleware } from "@clerk/express";
 
 import authRoutes from "./routes/authRoutes";
@@ -13,7 +14,7 @@ app.use(express.json()); // parses incoming JSON req bodies and make the availbl
 app.use(clerkMiddleware());
 
 app.get("/health", (req, res) => {
-    res.json({ status: "ok", message: "Server is running"});
+    res.json({ status: "ok", message: "Server is running" });
 })
 
 app.use("/api/auth", authRoutes);
@@ -26,4 +27,13 @@ app.use("/api/users", userRoutes);
 // errors passed with next(err) or thrown inside async handlers
 app.use(errorHandler);
 
-export default app;
+// serve frontend in production
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../../web/dist")));
+
+    app.get("/{*any}", (req, res) => {
+        res.sendFile(path.join(__dirname, "../../web/dist/index.html"));
+    });
+}
+
+    export default app;
