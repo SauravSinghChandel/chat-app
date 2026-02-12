@@ -18,6 +18,7 @@ export async function getMe(req: AuthRequest, res: Response, next: NextFunction)
 
     } catch (error) {
         // res.status(500).json({ message: "Internal server error" })
+        res.status(500);
         next(error);
     }
 }
@@ -50,6 +51,7 @@ export async function authCallback(req: Request, res: Response, next:NextFunctio
 
     } catch (error) {
         // res.status(500).json({message: "Internal server error"})
+        res.status(500);
         next(error);
     }
 }
