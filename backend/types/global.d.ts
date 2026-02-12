@@ -1,2 +1,2 @@
-/// <reference types="@clerk/expres/env" />
+/// <reference types="@clerk/express/env" />
 
