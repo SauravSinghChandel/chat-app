@@ -13,9 +13,10 @@ export const protectRoute = [
         try {
             const { userId: clerkId } = getAuth(req);
 
-            if (!clerkId) {
-                return res.status(401).json({ message: "Unauthorized - invalid token" });
-            }
+            // Since we call requireAuth() this if check is not necessary
+            // if (!clerkId) {
+            //     return res.status(401).json({ message: "Unauthorized - invalid token" });
+            // }
 
             const user = await User.findOne({ clerkId });
             if (!user) {
@@ -26,7 +27,7 @@ export const protectRoute = [
 
             next();
         } catch (error) {
-
+            next(error);
         }
     }
 ]
