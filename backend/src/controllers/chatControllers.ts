@@ -21,7 +21,7 @@ export async function getChats(req: AuthRequest, res: Response, next: NextFuncti
                 participant: otherParticipant ?? null,
                 lastMessage: chat.lastMessage,
                 lastMessageAt: chat.lastMessageAt,
-                createAt: chat.createdAt,
+                createdAt: chat.createdAt,
             };
         });
 
@@ -42,7 +42,8 @@ export async function getOrCreateChat(req: AuthRequest, res: Response, next: Nex
         }
 
         if (!Types.ObjectId.isValid(participantId)) {
-            return res.status(400).json({message: "Cannot create chat with yourself"});
+            res.status(400).json({message: "Invalid participant ID"});
+            return;
         }
 
         if (userId === participantId) {
